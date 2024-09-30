@@ -37,17 +37,28 @@ class Note extends Database
     }
 
 
-    
+
     /*-----------Static functions------------*/
-    public static function get(string $uuid): Note
+
+
+    public static function get(string $uuid): ?Note
     { // Search for a database element and returns it like a Note type 
         $database = new Database();
         $query = $database->connect()->prepare("SELECT * FROM notes WHERE uuid = :uuid ");
-        $query->execute(['uuid' => $uuid ]);
+        $query->execute(['uuid' => $uuid]);
 
-        return Note::CreateFromArray($query->fetch(PDO::FETCH_ASSOC));
+        $data = $query->fetch(PDO::FETCH_ASSOC);
+
+        if ($data === false) {
+            // Manejar el caso donde no se encontró la nota
+            return null; // o lanzar una excepción, según lo que prefieras
+        }
+
+        return Note::CreateFromArray($data);
     }
 
+    
+    
     public static function CreateFromArray(array $array): Note
     {//Create a note with db data 
         $note = new Note($array['title'], $array['content']);
@@ -56,6 +67,7 @@ class Note extends Database
         return $note;
     }
 
+    
     public static function getAll(): array
     { //get all notes in db
 
