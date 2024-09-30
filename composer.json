@@ -1,0 +1,15 @@
+{
+    "name": "spikey/notas",
+    "autoload": {
+        "psr-4": {
+            "Spikey\\Notas\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Adrian",
+            "email": "adjbrz@gmail.com"
+        }
+    ],
+    "require": {}
+}
